@@ -22,17 +22,36 @@
         return Math.floor(Math.random()*questionsBase.length);
     }
 
-    // pick random number
-    var x = PickRandomQuestionNumber(questions)
+    // quiz loop
+    var inQuizMood = true;
+    var truthies = 0;
+    var falsies = 0;
+    while (inQuizMood) {
+        // pick random number
+        var x = PickRandomQuestionNumber(questions)
 
-    // format prompt
-    var boxMessage = "                  Question: \n";
-    boxMessage += " "+questions[x].text+"\n";
-    for (i=0; i<questions[x].answers.length; i++) {
-        boxMessage += "     "+(i+1)+"."+questions[x].answers[i]+" \n";
-    }
-    
-    // process answer
-    var answer = prompt(boxMessage);
-    console.log(answer+( questions[x].rightAnswer == answer ? " -correct answer" : " -wrong answer"));
+        // format prompt
+        var boxMessage = "                  Quiz question: \n";
+        boxMessage += " "+questions[x].text+"\n";
+        for (i=0; i<questions[x].answers.length; i++) {
+            boxMessage += "     "+(i+1)+"."+questions[x].answers[i]+" \n";
+        }
+        boxMessage += "\n Note: Enter 0 to exit the quiz ...";
+
+        // display prompt and get answer
+        var answer = prompt(boxMessage);
+        
+        if ( answer == 0 ) { 
+            inQuizMood = false; 
+        } else {
+            if ( questions[x].rightAnswer == answer ) {
+                truthies += 1;
+                console.log("Right! You scored: "+ truthies + " of total " + (truthies+falsies) + " questions." ); 
+            } else {
+                falsies += 1;
+                console.log("Wrong! You scored: "+ truthies + " of total " + (truthies+falsies) + " questions." ); 
+            }
+               
+        } 
+    }    
 })() 
